@@ -1,5 +1,3 @@
-# Welcome to your Lovable project
-
 ## Project info
 
 **URL**: https://lovable.dev/projects/404e3091-3923-473f-9d28-dee33a0b0cb3
@@ -7,12 +5,6 @@
 ## How can I edit this code?
 
 There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/404e3091-3923-473f-9d28-dee33a0b0cb3) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
@@ -24,10 +16,10 @@ Follow these steps:
 
 ```sh
 # Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+git clone https://github.com/krishnatejaswi2005/Tara.ai-AI-Recruiter.git
 
 # Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+cd Tara.ai-AI-Recruiter
 
 # Step 3: Install the necessary dependencies.
 npm i
@@ -60,14 +52,39 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/404e3091-3923-473f-9d28-dee33a0b0cb3) and click on Share -> Publish.
+## 🚀 Features
 
-## Can I connect a custom domain to my Lovable project?
+- 📄 **Resume Upload & Parsing** via frontend
+- ✅ **AI-Powered Resume Screening** using Google Gemini & LangChain in n8n
+- 📊 **Notion ATS Integration** to store and track applicant data
+- 🧠 **Pre-Interview Preparation Page**
+- 🎤 **Behavioral AI Interviews** powered by ElevenLabs Conversational Agent
+- 📈 **Results Page** showing ATS score and AI evaluation
+- 🔄 **Workflow Automation** using n8n with multi-stage flow
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🔗 Workflow Overview
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### 🔄 Workflow 1: Resume Screening
+1. Candidate submits resume via the frontend.
+2. Data hits `n8n` webhook (based on job code).
+3. Resume is uploaded to Google Drive and parsed.
+4. Gemini AI evaluates candidate fit.
+5. Candidate data is stored in Notion ATS and Google Sheets.
+6. Workflow ends with:
+   - A `Webhook Response` to frontend ➡️ Pre-interview
+   - An HTTP Request triggering **Workflow 2**
+
+### 🎤 Workflow 2: ElevenLabs AI Interview
+1. Triggered via POST to `/webhook/elevenlabs`
+2. Data is passed to ElevenLabs for the conversational interview.
+3. Transcript and evaluation are saved in Notion & Google Drive.
+4. Final results are displayed on the frontend.
+
+---
+
+## 📬Contact
+For issues or contributions, feel free to open a PR or contact the maintainer.
