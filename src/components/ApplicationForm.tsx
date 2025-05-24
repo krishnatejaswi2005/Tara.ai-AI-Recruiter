@@ -24,6 +24,33 @@ const ApplicationForm = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // Get the correct webhook URL based on job code
+  const getWebhookUrl = (code: string) => {
+    switch (code) {
+      case '200':
+        return 'https://krishna2005.app.n8n.cloud/webhook/form1'; // Full Stack Developer
+      case '100':
+        return 'https://krishna2005.app.n8n.cloud/webhook/form2'; // IT Support
+      case '300':
+        return 'https://krishna2005.app.n8n.cloud/webhook/form3'; // Senior Accountant
+      default:
+        return 'https://krishna2005.app.n8n.cloud/webhook/form3'; // Default to Senior Accountant
+    }
+  };
+
+  const getJobTitle = (code: string) => {
+    switch (code) {
+      case '200':
+        return 'Full Stack Developer';
+      case '100':
+        return 'IT Support';
+      case '300':
+        return 'Senior Accountant';
+      default:
+        return 'Senior Accountant';
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -63,22 +90,48 @@ const ApplicationForm = () => {
     setIsLoading(true);
     
     try {
-      // Store form data in localStorage for the interview process
-      localStorage.setItem('applicationData', JSON.stringify({
-        ...formData,
-        jobCode,
-        resumeName: formData.resume?.name
-      }));
+      // Prepare form data for submission
+      const submitData = new FormData();
+      submitData.append('Name', formData.fullName);
+      submitData.append('Email', formData.email);
+      submitData.append('Phone', formData.phoneNumber);
+      submitData.append('LinkedIn', formData.linkedinLink);
+      submitData.append('Resume', formData.resume);
+      submitData.append('JobCode', jobCode);
 
-      toast({
-        title: "Application submitted!",
-        description: "Proceeding to pre-interview preparation.",
+      const webhookUrl = getWebhookUrl(jobCode);
+      
+      // Submit to n8n webhook
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        body: submitData
       });
 
-      setTimeout(() => {
-        navigate('/pre-interview');
-      }, 1000);
+      if (response.ok) {
+        // Store form data in localStorage for the interview process
+        localStorage.setItem('applicationData', JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phoneNumber: formData.phoneNumber,
+          linkedinLink: formData.linkedinLink,
+          jobCode,
+          jobTitle: getJobTitle(jobCode),
+          resumeName: formData.resume?.name
+        }));
+
+        toast({
+          title: "Application submitted!",
+          description: "Proceeding to pre-interview preparation.",
+        });
+
+        setTimeout(() => {
+          navigate('/pre-interview');
+        }, 1000);
+      } else {
+        throw new Error('Failed to submit application');
+      }
     } catch (error) {
+      console.error('Error submitting application:', error);
       toast({
         title: "Error",
         description: "Failed to submit application. Please try again.",
@@ -95,7 +148,7 @@ const ApplicationForm = () => {
         <Card className="bg-white shadow-lg">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold text-gray-900">
-              IT Job Analyst
+              {getJobTitle(jobCode)}
             </CardTitle>
             <p className="text-lg text-gray-600 mt-2">Apply</p>
           </CardHeader>
@@ -181,8 +234,6 @@ const ApplicationForm = () => {
                   )}
                 </div>
               </div>
-
-              <input type="hidden" name="jobCode" value={jobCode} />
 
               <Button 
                 type="submit" 
