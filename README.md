@@ -1,8 +1,9 @@
 ## Project info
 
-**URL**: https://lovable.dev/projects/404e3091-3923-473f-9d28-dee33a0b0cb3
+**URL**: https://taraai.vercel.app/
 
 ## Multi-Agent URL
+
 **URL**: https://krishna2005.app.n8n.cloud/workflow/4svPu0AujsKsAqxJ
 
 ## How can I edit this code?
@@ -72,6 +73,7 @@ This project is built with:
 ## 🔗 Workflow Overview
 
 ### 🔄 Workflow 1: Resume Screening
+
 1. Candidate submits resume via the frontend.
 2. Data hits `n8n` webhook (based on job code).
 3. Resume is uploaded to Google Drive and parsed.
@@ -82,6 +84,7 @@ This project is built with:
    - An HTTP Request triggering **Workflow 2**
 
 ### 🎤 Workflow 2: ElevenLabs AI Interview
+
 1. Triggered via POST to `/webhook/elevenlabs`
 2. Data is passed to ElevenLabs for the conversational interview.
 3. Transcript and evaluation are saved in Notion & Google Drive.
@@ -90,4 +93,5 @@ This project is built with:
 ---
 
 ## 📬Contact
+
 For issues or contributions, feel free to open a PR or contact the maintainer.
